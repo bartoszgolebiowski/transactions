@@ -26,6 +26,7 @@ const Register = () => {
   const isPassword = current.matches("loggedOut.invalidPassword");
   const isPasswordAgain = current.matches("loggedOut.invalidPasswordAgain");
   const isSignUpFailed = current.matches("loggedOut.signUpFailed");
+  const disabled = current.matches("authenticating");
 
   if (current.matches("loggedOut.signUpSuccess")) {
     return <Navigate replace to="/auth/login" />;
@@ -40,14 +41,26 @@ const Register = () => {
         ) : null}
         <FormControl>
           <FormLabel htmlFor="email">Email</FormLabel>
-          <Input required id="email" type="email" name="email" />
+          <Input
+            required
+            disabled={disabled}
+            id="email"
+            type="email"
+            name="email"
+          />
           {isEmailError ? (
             <Heading color="red.500">Email is required</Heading>
           ) : null}
         </FormControl>
         <FormControl>
           <FormLabel htmlFor="password">Password</FormLabel>
-          <Input required id="password" type="password" name="password" />
+          <Input
+            required
+            disabled={disabled}
+            id="password"
+            type="password"
+            name="password"
+          />
           {isPassword ? (
             <Heading color="red.500">Password it too weak</Heading>
           ) : null}
@@ -56,6 +69,7 @@ const Register = () => {
           <FormLabel htmlFor="passwordAgain">Password again</FormLabel>
           <Input
             required
+            disabled={disabled}
             id="passwordAgain"
             type="password"
             name="passwordAgain"
@@ -70,8 +84,12 @@ const Register = () => {
           </Link>
         </Text>
         <HStack justifyContent="space-between">
-          <Button type="reset">Clean</Button>
-          <Button type="submit">Register</Button>
+          <Button disabled={disabled} type="reset">
+            Clean
+          </Button>
+          <Button disabled={disabled} type="submit">
+            Register
+          </Button>
         </HStack>
       </Stack>
     </form>

@@ -24,6 +24,7 @@ const Login = () => {
 
   const isEmailError = current.matches("loggedOut.invalidEmail");
   const isAuthFailed = current.matches("loggedOut.authFailed");
+  const disabled = current.matches("authenticating");
 
   return (
     <form onSubmit={handleSubmit}>
@@ -34,14 +35,26 @@ const Login = () => {
         ) : null}
         <FormControl>
           <FormLabel htmlFor="email">Email</FormLabel>
-          <Input required id="email" type="email" name="email" />
+          <Input
+            required
+            disabled={disabled}
+            id="email"
+            type="email"
+            name="email"
+          />
           {isEmailError ? (
             <Heading color="red.500">Email is required</Heading>
           ) : null}
         </FormControl>
         <FormControl>
           <FormLabel htmlFor="password">Password</FormLabel>
-          <Input required id="password" type="password" name="password" />
+          <Input
+            required
+            disabled={disabled}
+            id="password"
+            type="password"
+            name="password"
+          />
         </FormControl>
         <Text>
           <Link color="teal.500" to="/auth/register">
@@ -49,8 +62,12 @@ const Login = () => {
           </Link>
         </Text>
         <HStack justifyContent="space-between">
-          <Button type="reset">Clean</Button>
-          <Button type="submit">Login</Button>
+          <Button disabled={disabled} type="reset">
+            Clean
+          </Button>
+          <Button disabled={disabled} type="submit">
+            Login
+          </Button>
         </HStack>
       </Stack>
     </form>
