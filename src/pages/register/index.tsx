@@ -8,13 +8,20 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import React from "react";
-import { Link, Navigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useAuth } from "@/store/authorization";
 
 const Register = () => {
   const [current, send] = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (current.matches("loggedOut.signUpSuccess")) {
+      navigate("/auth/login", { replace: true });
+    }
+  }, [current, navigate]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,11 +33,7 @@ const Register = () => {
   const isPassword = current.matches("loggedOut.invalidPassword");
   const isPasswordAgain = current.matches("loggedOut.invalidPasswordAgain");
   const isSignUpFailed = current.matches("loggedOut.signUpFailed");
-  const disabled = current.matches("authenticating");
-
-  if (current.matches("loggedOut.signUpSuccess")) {
-    return <Navigate replace to="/auth/login" />;
-  }
+  const disabled = current.matches("registrating");
 
   return (
     <form onSubmit={handleSubmit}>

@@ -1,16 +1,6 @@
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Heading,
-  HStack,
-  Input,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
 import React from "react";
-import { Link } from "react-router-dom";
 
+import LoginForm from "@/components/login/LoginForm";
 import { useAuth } from "@/store/authorization";
 
 const Login = () => {
@@ -27,50 +17,12 @@ const Login = () => {
   const disabled = current.matches("authenticating");
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Stack spacing={3} mt="10" mx="5">
-        <Heading>Login</Heading>
-        {isAuthFailed ? (
-          <Heading color="red.500">Login has failed, try again</Heading>
-        ) : null}
-        <FormControl>
-          <FormLabel htmlFor="email">Email</FormLabel>
-          <Input
-            required
-            disabled={disabled}
-            id="email"
-            type="email"
-            name="email"
-          />
-          {isEmailError ? (
-            <Heading color="red.500">Email is required</Heading>
-          ) : null}
-        </FormControl>
-        <FormControl>
-          <FormLabel htmlFor="password">Password</FormLabel>
-          <Input
-            required
-            disabled={disabled}
-            id="password"
-            type="password"
-            name="password"
-          />
-        </FormControl>
-        <Text>
-          <Link color="teal.500" to="/auth/register">
-            Register here
-          </Link>
-        </Text>
-        <HStack justifyContent="space-between">
-          <Button disabled={disabled} type="reset">
-            Clean
-          </Button>
-          <Button disabled={disabled} type="submit">
-            Login
-          </Button>
-        </HStack>
-      </Stack>
-    </form>
+    <LoginForm
+      isEmailError={isEmailError}
+      isAuthFailed={isAuthFailed}
+      disabled={disabled}
+      onSubmit={handleSubmit}
+    />
   );
 };
 
