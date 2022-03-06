@@ -15,19 +15,28 @@ import CommonLink from "@/components/common/Link";
 type Props = {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   isEmailError: boolean;
-  isAuthFailed: boolean;
+  isPasswordError: boolean;
+  isPasswordAgainError: boolean;
+  isSignUpFailed: boolean;
   disabled: boolean;
 };
 
-const LoginForm = (props: Props) => {
-  const { onSubmit, isEmailError, isAuthFailed, disabled } = props;
+const RegisterForm = (props: Props) => {
+  const {
+    onSubmit,
+    isEmailError,
+    isPasswordError,
+    isPasswordAgainError,
+    isSignUpFailed,
+    disabled,
+  } = props;
 
   return (
     <form onSubmit={onSubmit}>
       <Stack spacing={3} mt="10" mx="5">
-        <Heading>Login</Heading>
-        {isAuthFailed ? (
-          <Heading color="red.500">Login has failed, try again</Heading>
+        <Heading>Registration</Heading>
+        {isSignUpFailed ? (
+          <Heading color="red.500">Registration has failed, try again</Heading>
         ) : null}
         <FormControl>
           <FormLabel htmlFor="email">Email</FormLabel>
@@ -51,16 +60,32 @@ const LoginForm = (props: Props) => {
             type="password"
             name="password"
           />
+          {isPasswordError ? (
+            <Heading color="red.500">Password it too weak</Heading>
+          ) : null}
+        </FormControl>
+        <FormControl>
+          <FormLabel htmlFor="passwordAgain">Password again</FormLabel>
+          <Input
+            required
+            disabled={disabled}
+            id="passwordAgain"
+            type="password"
+            name="passwordAgain"
+          />
+          {isPasswordAgainError ? (
+            <Heading color="red.500">Passwords are not the same</Heading>
+          ) : null}
         </FormControl>
         <Text>
-          <CommonLink to="/auth/register">Register here</CommonLink>
+          <CommonLink to="/auth/login">Login here</CommonLink>
         </Text>
         <HStack justifyContent="space-between">
           <Button disabled={disabled} type="reset">
             Clean
           </Button>
           <Button disabled={disabled} type="submit">
-            Login
+            Register
           </Button>
         </HStack>
       </Stack>
@@ -68,4 +93,4 @@ const LoginForm = (props: Props) => {
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

@@ -1,16 +1,7 @@
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Heading,
-  HStack,
-  Input,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
 import React, { useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
+import RegisterForm from "@/components/register/RegisterForm";
 import { useAuth } from "@/store/authorization";
 
 const Register = () => {
@@ -36,66 +27,14 @@ const Register = () => {
   const disabled = current.matches("registrating");
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Stack spacing={3} mt="10" mx="5">
-        <Heading>Registration</Heading>
-        {isSignUpFailed ? (
-          <Heading color="red.500">Registration has failed, try again</Heading>
-        ) : null}
-        <FormControl>
-          <FormLabel htmlFor="email">Email</FormLabel>
-          <Input
-            required
-            disabled={disabled}
-            id="email"
-            type="email"
-            name="email"
-          />
-          {isEmailError ? (
-            <Heading color="red.500">Email is required</Heading>
-          ) : null}
-        </FormControl>
-        <FormControl>
-          <FormLabel htmlFor="password">Password</FormLabel>
-          <Input
-            required
-            disabled={disabled}
-            id="password"
-            type="password"
-            name="password"
-          />
-          {isPassword ? (
-            <Heading color="red.500">Password it too weak</Heading>
-          ) : null}
-        </FormControl>
-        <FormControl>
-          <FormLabel htmlFor="passwordAgain">Password again</FormLabel>
-          <Input
-            required
-            disabled={disabled}
-            id="passwordAgain"
-            type="password"
-            name="passwordAgain"
-          />
-          {isPasswordAgain ? (
-            <Heading color="red.500">Passwords are not the same</Heading>
-          ) : null}
-        </FormControl>
-        <Text>
-          <Link color="teal.500" to="/auth/login">
-            Login here
-          </Link>
-        </Text>
-        <HStack justifyContent="space-between">
-          <Button disabled={disabled} type="reset">
-            Clean
-          </Button>
-          <Button disabled={disabled} type="submit">
-            Register
-          </Button>
-        </HStack>
-      </Stack>
-    </form>
+    <RegisterForm
+      isEmailError={isEmailError}
+      isPasswordError={isPassword}
+      isPasswordAgainError={isPasswordAgain}
+      isSignUpFailed={isSignUpFailed}
+      disabled={disabled}
+      onSubmit={handleSubmit}
+    />
   );
 };
 
