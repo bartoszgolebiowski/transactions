@@ -2,12 +2,14 @@ import React from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
 import BasicLayout from "@/layouts/BasicLayout";
+import NonAuthorizedLayout from "@/layouts/NonAuthorizedLayout";
 
 import NonAutorizedRoute from "./NonAutorizedRoute";
 import PrivateRoute from "./PrivateRoute";
 
 const Login = React.lazy(() => import("@/pages/login"));
 const Register = React.lazy(() => import("@/pages/register"));
+const Logout = React.lazy(() => import("@/pages/logout"));
 const Home = React.lazy(() => import("@/pages"));
 
 const Router = () => {
@@ -22,13 +24,14 @@ const Router = () => {
             </PrivateRoute>
           }
         >
+          <Route path="logout" element={<Logout />} />
           <Route index element={<Home />} />
         </Route>
         <Route
           path="/auth"
           element={
             <NonAutorizedRoute>
-              <BasicLayout />
+              <NonAuthorizedLayout />
             </NonAutorizedRoute>
           }
         >

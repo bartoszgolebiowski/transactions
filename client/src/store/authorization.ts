@@ -36,7 +36,7 @@ export const authorizationMachine = (api = defaultAPI) =>
   createMachine<AuthState>(
     {
       id: "authorization",
-      initial: "loggedOut",
+      initial: "loggedIn",
       context: initialState,
       states: {
         authenticating: {

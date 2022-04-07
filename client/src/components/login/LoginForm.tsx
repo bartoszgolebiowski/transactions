@@ -5,38 +5,29 @@ import {
   Heading,
   HStack,
   Input,
+  Link,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import React from "react";
-
-import CommonLink from "@/components/common/Link";
+import { Link as LinkRouter } from "react-router-dom";
 
 type Props = {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   isEmailError: boolean;
-  isPasswordError: boolean;
-  isPasswordAgainError: boolean;
-  isSignUpFailed: boolean;
+  isAuthFailed: boolean;
   disabled: boolean;
 };
 
-const RegisterForm = (props: Props) => {
-  const {
-    onSubmit,
-    isEmailError,
-    isPasswordError,
-    isPasswordAgainError,
-    isSignUpFailed,
-    disabled,
-  } = props;
+const LoginForm = (props: Props) => {
+  const { onSubmit, isEmailError, isAuthFailed, disabled } = props;
 
   return (
     <form onSubmit={onSubmit}>
       <Stack spacing={3} mt="10" mx="5">
-        <Heading>Registration</Heading>
-        {isSignUpFailed ? (
-          <Heading color="red.500">Registration has failed, try again</Heading>
+        <Heading>Login</Heading>
+        {isAuthFailed ? (
+          <Heading color="red.500">Login has failed, try again</Heading>
         ) : null}
         <FormControl>
           <FormLabel htmlFor="email">Email</FormLabel>
@@ -60,32 +51,23 @@ const RegisterForm = (props: Props) => {
             type="password"
             name="password"
           />
-          {isPasswordError ? (
-            <Heading color="red.500">Password it too weak</Heading>
-          ) : null}
-        </FormControl>
-        <FormControl>
-          <FormLabel htmlFor="passwordAgain">Password again</FormLabel>
-          <Input
-            required
-            disabled={disabled}
-            id="passwordAgain"
-            type="password"
-            name="passwordAgain"
-          />
-          {isPasswordAgainError ? (
-            <Heading color="red.500">Passwords are not the same</Heading>
-          ) : null}
         </FormControl>
         <Text>
-          <CommonLink to="/auth/login">Login here</CommonLink>
+          <Link
+            as={LinkRouter}
+            color="blue.500"
+            fontWeight="bold"
+            to="/auth/register"
+          >
+            Register here
+          </Link>
         </Text>
         <HStack justifyContent="space-between">
           <Button disabled={disabled} type="reset">
             Clean
           </Button>
           <Button disabled={disabled} type="submit">
-            Register
+            Login
           </Button>
         </HStack>
       </Stack>
@@ -93,4 +75,4 @@ const RegisterForm = (props: Props) => {
   );
 };
 
-export default RegisterForm;
+export default LoginForm;

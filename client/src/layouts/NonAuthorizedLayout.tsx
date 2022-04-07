@@ -2,7 +2,7 @@ import { Container } from "@chakra-ui/react";
 import React from "react";
 import { Outlet } from "react-router-dom";
 
-const BasicLayout = () => {
+const NonAuthorizedLayout = () => {
   return (
     <Container>
       <Outlet />
@@ -10,4 +10,4 @@ const BasicLayout = () => {
   );
 };
 
-export default BasicLayout;
+export default NonAuthorizedLayout;
