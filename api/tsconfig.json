@@ -16,7 +16,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true
   },
-  "lib": ["es2015"],
+  "lib": ["esnext"],
   "include": ["src/**/*"],
   "exclude": ["node_modules"]
 }

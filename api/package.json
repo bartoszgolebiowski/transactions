@@ -4,14 +4,14 @@
   "description": "api",
   "main": "index.ts",
   "scripts": {
-    "start": "nodemon",
-    "build": "tsc",
+    "dev": "tsnd --respawn src/index.ts",
+    "build": "tsc -p .",
     "test:unit": "jest",
     "test:watch": "jest --watchAll",
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
-    "lint:check": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "lint:check": "eslint",
+    "lint:fix": "eslint --fix"
   },
   "author": "Bartosz Golebiowski",
   "license": "MIT",
@@ -29,8 +29,10 @@
     "jest": "^27.5.1",
     "nodemon": "^2.0.15",
     "prettier": "^2.6.2",
+    "prisma": "^3.12.0",
     "ts-jest": "^27.1.4",
     "ts-node": "^10.7.0",
+    "ts-node-dev": "^1.1.8",
     "typescript": "^4.6.3"
   },
   "dependencies": {
