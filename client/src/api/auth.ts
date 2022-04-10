@@ -1,26 +1,49 @@
-export const mockAuthenticate = (
-  email: string,
-  password: string,
-  ms = 1500
-) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (Math.random() < 0.5) resolve(email);
-      else reject("oopsy doopsy");
-    }, ms);
-  });
+const authenticate = (email: string, password: string): Promise<string> => {
+  return fetch("http://localhost:5000/api/v1/auth/login", {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error("oopsy doopsy");
+      } else {
+        return res.json();
+      }
+    })
+    .then(res => res.accessToken);
 };
 
-export const mockSignUp = (email: string, password: string, ms = 1500) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (Math.random() < 0.5) resolve(email);
-      else reject("oopsy doopsy");
-    }, ms);
-  });
+const signUp = (email: string, password: string): Promise<string> => {
+  return fetch("http://localhost:5000/api/v1/auth/register", {
+    method: "POST",
+    body: JSON.stringify({ email, password }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(res => {
+      if (!res.ok) {
+        throw new Error("oopsy doopsy");
+      } else {
+        return res.json();
+      }
+    })
+    .then(res => res.accessToken);
 };
 
-export const defaultAPI = {
-  authenticate: mockAuthenticate,
-  signUp: mockSignUp,
+const initialization = (): string => {
+  const token = localStorage.getItem("accessToken");
+  if (token) {
+    return token;
+  }
+  throw new Error("No token");
+};
+
+export const authAPI = {
+  authenticate,
+  signUp,
+  initialization,
 };

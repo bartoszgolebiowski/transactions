@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import React from "react";
+import * as React from "react";
 
 import RegisterForm from "../RegisterForm";
 
@@ -17,7 +17,7 @@ jest.mock("react-router-dom", () => ({
 
 describe("RegisterForm", () => {
   it("should render 3 inputs 2 buttons and Login text", () => {
-    const onSubmit = jest.fn();
+    const onSubmit = jest.fn(e => e.preventDefault());
     render(
       <RegisterForm
         isEmailError={false}
@@ -42,7 +42,7 @@ describe("RegisterForm", () => {
   });
 
   it("should display email error when isEmailError true", () => {
-    const onSubmit = jest.fn();
+    const onSubmit = jest.fn(e => e.preventDefault());
     render(
       <RegisterForm
         isEmailError={true}
@@ -57,7 +57,7 @@ describe("RegisterForm", () => {
   });
 
   it("should display password error when isPasswordError true", () => {
-    const onSubmit = jest.fn();
+    const onSubmit = jest.fn(e => e.preventDefault());
     render(
       <RegisterForm
         isEmailError={false}
@@ -72,7 +72,7 @@ describe("RegisterForm", () => {
   });
 
   it("should display passwordAgain error when isPasswordAgainError true", () => {
-    const onSubmit = jest.fn();
+    const onSubmit = jest.fn(e => e.preventDefault());
     render(
       <RegisterForm
         isEmailError={false}
@@ -87,7 +87,7 @@ describe("RegisterForm", () => {
   });
 
   it("should display SignUpFailed message when isSignUpFailed true", () => {
-    const onSubmit = jest.fn();
+    const onSubmit = jest.fn(e => e.preventDefault());
     render(
       <RegisterForm
         isEmailError={false}
@@ -105,7 +105,7 @@ describe("RegisterForm", () => {
   });
 
   it("should display disabled buttons and inputs when disabled true", () => {
-    const onSubmit = jest.fn();
+    const onSubmit = jest.fn(e => e.preventDefault());
     render(
       <RegisterForm
         isEmailError={false}
@@ -127,7 +127,7 @@ describe("RegisterForm", () => {
   });
 
   it("should invoke onSubmit after submitting form", () => {
-    const onSubmit = jest.fn();
+    const onSubmit = jest.fn(e => e.preventDefault());
     render(
       <RegisterForm
         isEmailError={false}

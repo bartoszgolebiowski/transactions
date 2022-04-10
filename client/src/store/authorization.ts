@@ -2,9 +2,12 @@ import { useMachine } from "@xstate/react";
 import constate from "constate";
 import { assign, createMachine } from "xstate";
 
-import { defaultAPI } from "@/api/auth";
+import { authAPI } from "@/api/auth";
 
 type AuthState = {
+  user: {
+    email: string;
+  } | null;
   login: {
     email: string;
     password: string;
@@ -17,6 +20,7 @@ type AuthState = {
 };
 
 const initialState: AuthState = {
+  user: null,
   login: {
     email: "",
     password: "",
@@ -28,24 +32,54 @@ const initialState: AuthState = {
   },
 };
 
+const ACCESS_TOKEN_KEY = "accessToken";
 const emailReg = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
 const passwordReg =
   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 
-export const authorizationMachine = (api = defaultAPI) =>
+const saveToken = (token: string) =>
+  localStorage.setItem(ACCESS_TOKEN_KEY, token);
+const clearToken = () => localStorage.removeItem(ACCESS_TOKEN_KEY);
+const clearUser = () => null;
+
+const parseJwt = (token: string) => {
+  try {
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    return payload;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+};
+
+export const authorizationMachine = (api = authAPI) =>
   createMachine<AuthState>(
     {
       id: "authorization",
-      initial: "loggedIn",
+      initial: "initializing",
       context: initialState,
       states: {
+        initializing: {
+          invoke: {
+            id: "initialization",
+            src: "initialization",
+            onDone: {
+              target: "loggedIn",
+              actions: ["extractUser"],
+            },
+            onError: {
+              target: "loggedOut",
+              actions: ["clearToken"],
+            },
+          },
+        },
         authenticating: {
           invoke: {
             id: "authenticateUser",
             src: "authenticateUser",
             onDone: {
               target: "loggedIn",
-              actions: "clearLoginIn",
+              actions: ["saveToken", "extractUser", "clearLoginIn"],
             },
             onError: {
               target: "loggedOut.authFailed",
@@ -59,7 +93,7 @@ export const authorizationMachine = (api = defaultAPI) =>
             src: "signUpUser",
             onDone: {
               target: "loggedOut.signUpSuccess",
-              actions: "clearSignUp",
+              actions: ["saveToken", "extractUser", "clearSignUp"],
             },
             onError: {
               target: "loggedOut.signUpFailed",
@@ -116,6 +150,7 @@ export const authorizationMachine = (api = defaultAPI) =>
           on: {
             LOG_OUT: {
               target: "loggedOut",
+              actions: ["clearToken", "clearUser"],
             },
           },
         },
@@ -123,23 +158,28 @@ export const authorizationMachine = (api = defaultAPI) =>
     },
     {
       actions: {
+        saveToken: (_, e) => saveToken(e.data),
+        clearToken: () => clearToken(),
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        clearUser: assign({ user: clearUser() }) as any,
+        extractUser: assign({
+          user: (_, e) => parseJwt(e.data),
+        }),
         clearSignUp: assign(initialState),
         clearLoginIn: assign(initialState),
-        saveDataRegistration: (_, e) =>
-          assign({
-            register: {
-              email: e.email,
-              password: e.password,
-              passwordAgain: e.passwordAgain,
-            },
+        saveDataRegistration: assign({
+          register: (_, e) => ({
+            email: e.email,
+            password: e.password,
+            passwordAgain: e.passwordAgain,
           }),
-        saveDataLogin: (_, e) =>
-          assign({
-            login: {
-              email: e.email,
-              password: e.password,
-            },
+        }),
+        saveDataLogin: assign({
+          login: (_, e) => ({
+            email: e.email,
+            password: e.password,
           }),
+        }),
       },
       guards: {
         checkEmail: (_, e) => !emailReg.test(e.email),
@@ -147,18 +187,49 @@ export const authorizationMachine = (api = defaultAPI) =>
         checkPasswordAgain: (_, e) => e.passwordAgain !== e.password,
       },
       services: {
-        authenticateUser: ctx => {
-          const { login } = ctx;
-          return api.authenticate(login.email, login.password);
+        initialization: async () => {
+          try {
+            const token = api.initialization();
+            return token;
+          } catch (e) {
+            console.error(e);
+            if (e instanceof Error) {
+              throw new Error(e.message);
+            }
+            throw new Error(`Something went wrong ${e}`);
+          }
         },
-        signUpUser: ctx => {
+        authenticateUser: async ctx => {
+          const { login } = ctx;
+          try {
+            const token = await api.authenticate(login.email, login.password);
+            return token;
+          } catch (e) {
+            console.error(e);
+            if (e instanceof Error) {
+              throw new Error(e.message);
+            }
+            throw new Error(`Something went wrong ${e}`);
+          }
+        },
+        signUpUser: async ctx => {
           const { register } = ctx;
-          return api.signUp(register.email, register.password);
+          try {
+            const token = await api.signUp(register.email, register.password);
+            return token;
+          } catch (e) {
+            console.error(e);
+            if (e instanceof Error) {
+              throw new Error(e.message);
+            }
+            throw new Error(`Something went wrong ${e}`);
+          }
         },
       },
     }
   );
 
-const useAuthMachine = () => useMachine(authorizationMachine(defaultAPI));
+const machine = authorizationMachine();
+const useAuthMachine = () => useMachine(machine);
 
 export const [AuthProvider, useAuth] = constate(useAuthMachine);

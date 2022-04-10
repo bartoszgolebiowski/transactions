@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import * as React from "react";
 
 import { useAuth } from "@/store/authorization";
 
 const Logout = () => {
   const [, send] = useAuth();
 
-  useEffect(() => {
+  React.useEffect(() => {
     send("LOG_OUT");
   }, [send]);
 

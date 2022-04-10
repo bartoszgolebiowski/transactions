@@ -9,7 +9,7 @@ import {
   MenuList,
   useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
+import * as React from "react";
 import { Link as LinkRouter } from "react-router-dom";
 
 import MenuHeader from "./MenuHeader";
@@ -31,11 +31,11 @@ const UserMenu = () => {
           fontWeight="bold"
           to="/user/settings"
         >
-          <MenuItem as="a">Settings</MenuItem>
+          <MenuItem>Settings</MenuItem>
         </Link>
         <MenuDivider />
         <Link as={LinkRouter} color="black.500" fontWeight="bold" to="/logout">
-          <MenuItem as="a">Log out</MenuItem>
+          <MenuItem>Log out</MenuItem>
         </Link>
       </MenuList>
     </Menu>

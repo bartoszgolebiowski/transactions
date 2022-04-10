@@ -1,5 +1,5 @@
 import { Box, Container } from "@chakra-ui/react";
-import React from "react";
+import * as React from "react";
 import { Outlet } from "react-router-dom";
 
 import UserMenu from "@/components/layouts/UserMenu";

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
 import RegisterForm from "@/components/register/RegisterForm";
@@ -8,7 +8,7 @@ const Register = () => {
   const [current, send] = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (current.matches("loggedOut.signUpSuccess")) {
       navigate("/auth/login", { replace: true });
     }

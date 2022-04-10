@@ -1,10 +1,37 @@
-import express from "express";
+import {
+  PrismaTransactionRepository,
+  PrismaTransactionRequestRepository,
+} from "./feature/transaction/repository";
+import {
+  TransactionRequestService,
+  TransactionService,
+} from "./feature/transaction/service";
+import { PrismaClient } from "@prisma/client";
+import { PrismaUserRepository } from "./feature/auth/repository";
+import { AuthService } from "./feature/auth/service";
+import { Configuration } from "./config/config";
 
-const app = express();
-const port = 5000;
+const prismaClient = new PrismaClient();
 
-app.use("/", (req, res, next) => {
-  res.status(200).send({ data: "Hello from Ornio AS" });
-});
+//repositories
+const userRepository = new PrismaUserRepository(prismaClient);
+const transactionRepository = new PrismaTransactionRepository(prismaClient);
+const transactionRquestRepository = new PrismaTransactionRequestRepository(
+  prismaClient
+);
 
-app.listen(port, () => console.log(`Server is listening on port ${port}!`));
+//services
+const authService = new AuthService(userRepository);
+const transactionRequestService = new TransactionRequestService(
+  transactionRquestRepository
+);
+const transactionService = new TransactionService(
+  transactionRepository,
+  transactionRequestService
+);
+
+new Configuration(
+  authService,
+  transactionService,
+  transactionRequestService
+).initServer();

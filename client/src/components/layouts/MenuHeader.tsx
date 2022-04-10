@@ -1,6 +1,6 @@
 import { SmallCloseIcon } from "@chakra-ui/icons";
 import { Box, IconButton } from "@chakra-ui/react";
-import React from "react";
+import * as React from "react";
 
 type Props = { onClose: () => void };
 

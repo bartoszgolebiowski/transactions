@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import React from "react";
+import * as React from "react";
 
 import LoginForm from "../LoginForm";
 
@@ -17,7 +17,7 @@ jest.mock("react-router-dom", () => ({
 
 describe("LoginForm", () => {
   it("should render 2 inputs 2 buttons and Login text", () => {
-    const onSubmit = jest.fn();
+    const onSubmit = jest.fn(e => e.preventDefault());
     render(
       <LoginForm
         isEmailError={false}
@@ -37,7 +37,7 @@ describe("LoginForm", () => {
   });
 
   it("should display email error when isEmailError true", () => {
-    const onSubmit = jest.fn();
+    const onSubmit = jest.fn(e => e.preventDefault());
     render(
       <LoginForm
         isEmailError={true}
@@ -50,7 +50,7 @@ describe("LoginForm", () => {
   });
 
   it("should display auth failed error when isAuthFailed true", () => {
-    const onSubmit = jest.fn();
+    const onSubmit = jest.fn(e => e.preventDefault());
     render(
       <LoginForm
         isEmailError={false}
@@ -65,7 +65,7 @@ describe("LoginForm", () => {
   });
 
   it("should display disabled buttons and inputs when disabled true", () => {
-    const onSubmit = jest.fn();
+    const onSubmit = jest.fn(e => e.preventDefault());
     render(
       <LoginForm
         isEmailError={false}
@@ -85,7 +85,7 @@ describe("LoginForm", () => {
   });
 
   it("should invoke onSubmit after submitting form", () => {
-    const onSubmit = jest.fn();
+    const onSubmit = jest.fn(e => e.preventDefault());
     render(
       <LoginForm
         isEmailError={false}
