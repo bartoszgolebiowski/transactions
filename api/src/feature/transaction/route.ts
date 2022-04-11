@@ -52,6 +52,24 @@ export const transactionRequestRouter = (
 ) => {
   const transactionRequestRouter = express.Router();
 
+  transactionRequestRouter.get(
+    "/",
+    ensureAuthenticated(authService),
+    async (req, res) => {
+      const user = req.user;
+
+      transactionRequestService
+        .getUserTransactionRequests(user.id)
+        .then((transactions) => {
+          res.status(200).json({ transactions });
+        })
+        .catch((err) => {
+          console.error(err);
+          res.status(500).json(err);
+        });
+    }
+  );
+
   transactionRequestRouter.post(
     "/create",
     ensureAuthenticated(authService),
@@ -69,7 +87,7 @@ export const transactionRequestRouter = (
           res.status(200).json(transaction);
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
           res.status(500).json(err);
         });
     }
@@ -100,7 +118,7 @@ export const transactionRequestRouter = (
       const { id } = req.params;
 
       transactionRequestService
-        .getDetails(id)
+        .getById(id)
         .then((transactionRequest) => {
           res.status(200).json(transactionRequest);
         })

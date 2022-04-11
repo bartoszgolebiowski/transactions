@@ -1,37 +1,17 @@
+import { fetchClient } from "./client";
+
 const authenticate = (email: string, password: string): Promise<string> => {
-  return fetch("http://localhost:5000/api/v1/auth/login", {
+  return fetchClient("api/v1/auth/login", {
     method: "POST",
     body: JSON.stringify({ email, password }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then(res => {
-      if (!res.ok) {
-        throw new Error("oopsy doopsy");
-      } else {
-        return res.json();
-      }
-    })
-    .then(res => res.accessToken);
+  }).then(res => res.accessToken);
 };
 
 const signUp = (email: string, password: string): Promise<string> => {
-  return fetch("http://localhost:5000/api/v1/auth/register", {
+  return fetchClient("api/v1/auth/register", {
     method: "POST",
     body: JSON.stringify({ email, password }),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then(res => {
-      if (!res.ok) {
-        throw new Error("oopsy doopsy");
-      } else {
-        return res.json();
-      }
-    })
-    .then(res => res.accessToken);
+  }).then(res => res.accessToken);
 };
 
 const initialization = (): string => {

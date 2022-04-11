@@ -6,11 +6,11 @@ import { IAuthService } from "../feature/auth/service";
 import {
   ITransactionRequestService,
   ITransactionService,
-} from "feature/transaction/service";
+} from "../feature/transaction/service";
 import {
   transactionRequestRouter,
   transactionRouter,
-} from "feature/transaction/route";
+} from "../feature/transaction/route";
 
 interface IConfiguration {
   initServer(): void;

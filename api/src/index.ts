@@ -27,7 +27,7 @@ const transactionRequestService = new TransactionRequestService(
 );
 const transactionService = new TransactionService(
   transactionRepository,
-  transactionRequestService
+  transactionRquestRepository
 );
 
 new Configuration(

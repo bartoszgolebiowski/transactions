@@ -10,15 +10,15 @@ const MenuHeader: React.FC<Props> = props => {
   return (
     <Box
       sx={{
-        display: "flex",
         flex: 1,
+        display: "flex",
       }}
     >
       <Box
         sx={{
+          flex: 1,
           position: "relative",
           display: "flex",
-          flex: 1,
           textAlign: "center",
           justifyContent: "center",
           alignItems: "center",

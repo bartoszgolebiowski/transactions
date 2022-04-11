@@ -6,9 +6,9 @@ import UserMenu from "@/components/layouts/UserMenu";
 
 const BasicLayout = () => {
   return (
-    <Container minW="30rem" maxW="100vw">
-      <Box as="nav" mt="3px" display="flex" flexDir="row">
-        <Box marginLeft="auto" display="flex" flexDir="row-reverse" gap="1rem">
+    <Container minW="20rem">
+      <Box as="nav" mt="2" display="flex" flexDir="row">
+        <Box marginLeft="auto" display="flex" flexDir="row-reverse" gap="2">
           <UserMenu />
         </Box>
       </Box>

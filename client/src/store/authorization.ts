@@ -47,7 +47,7 @@ const parseJwt = (token: string) => {
     const payload = JSON.parse(atob(token.split(".")[1]));
     return payload;
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return null;
   }
 };
@@ -92,7 +92,7 @@ export const authorizationMachine = (api = authAPI) =>
             id: "signUpUser",
             src: "signUpUser",
             onDone: {
-              target: "loggedOut.signUpSuccess",
+              target: "loggedIn",
               actions: ["saveToken", "extractUser", "clearSignUp"],
             },
             onError: {

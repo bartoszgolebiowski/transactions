@@ -37,12 +37,12 @@ const generateToken = (id: string) => {
 
 describe("transaction router", () => {
   let app: Express;
-  let transactionService: TransactionService;
-  let transactionRequestService: TransactionRequestService;
   let userRepository: InMemoryUserRepository;
   let transactionRepository: InMemoryTransactionRepository;
   let transactionRequestRepository: InMemoryTransactionRequestRepository;
   let authService: AuthService;
+  let transactionService: TransactionService;
+  let transactionRequestService: TransactionRequestService;
 
   beforeEach(() => {
     userRepository = new InMemoryUserRepository(users);

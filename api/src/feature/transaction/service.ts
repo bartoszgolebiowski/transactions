@@ -10,7 +10,8 @@ export interface ITransactionService {
 }
 
 export interface ITransactionRequestService {
-  getDetails(id: string): Promise<TransactionRequest | null>;
+  getUserTransactionRequests(userId: string): Promise<TransactionRequest[]>;
+  getById(id: string): Promise<TransactionRequest | null>;
   deactive(id: string, userId: string): Promise<TransactionRequest>;
   create(
     data: Parameters<ITransactionRequestRepository["save"]>[0]
@@ -60,8 +61,12 @@ export class TransactionRequestService implements ITransactionRequestService {
   constructor(transactionRequestRepository: ITransactionRequestRepository) {
     this.transactionRequestRepository = transactionRequestRepository;
   }
-
-  async getDetails(id: string): Promise<TransactionRequest | null> {
+  async getUserTransactionRequests(
+    userId: string
+  ): Promise<TransactionRequest[]> {
+    return this.transactionRequestRepository.getAllActiveForUser(userId);
+  }
+  async getById(id: string): Promise<TransactionRequest | null> {
     return this.transactionRequestRepository.getById(id);
   }
 

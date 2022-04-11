@@ -142,9 +142,7 @@ describe("autorization-machine", () => {
       expect(api.signUp).toHaveBeenCalled();
       expect(machine.state.value).toBe("registrating");
       await waitForExpect(() => {
-        expect(machine.state.value).toStrictEqual({
-          loggedOut: "signUpSuccess",
-        });
+        expect(machine.state.value).toBe("loggedIn");
       });
       expect(machine.state.context.register).toStrictEqual({
         email: "",
