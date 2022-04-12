@@ -16,17 +16,16 @@ type Props = {
 };
 
 const CreateTransactionRequestForm = (props: Props) => {
+  const { isSubmitting, onSubmit } = props;
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const form = e.currentTarget;
-    props.onSubmit({
+    onSubmit({
       amount: Number(form.amount.value),
       description: form.description.value,
     });
     e.currentTarget.reset();
   };
-
-  const isSubmitting = props.isSubmitting;
 
   return (
     <form onSubmit={handleSubmit}>
@@ -39,7 +38,10 @@ const CreateTransactionRequestForm = (props: Props) => {
         <FormLabel htmlFor="description">Description</FormLabel>
         <Input required id="description" type="text" disabled={isSubmitting} />
       </FormControl>
-      <HStack mt="2">
+      <HStack mt="2" flexDir="row-reverse" gap="4">
+        <Button colorScheme="teal" type="submit" disabled={isSubmitting}>
+          Submit
+        </Button>
         <Button
           colorScheme="teal"
           variant="outline"
@@ -47,9 +49,6 @@ const CreateTransactionRequestForm = (props: Props) => {
           disabled={isSubmitting}
         >
           Clear
-        </Button>
-        <Button colorScheme="teal" type="submit" disabled={isSubmitting}>
-          Submit
         </Button>
       </HStack>
     </form>

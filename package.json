@@ -1,0 +1,17 @@
+{
+  "name": "transactions",
+  "version": "0.0.1",
+  "description": "Transactions App",
+  "scripts": {
+    "install:all": "yarn --cwd ./client install && yarn --cwd ./api install",
+    "dev:client": "yarn --cwd ./client dev",
+    "dev:api": " yarn --cwd ./api dev",
+    "test:client": " yarn --cwd ./client test:unit:ci",
+    "test:api": " yarn --cwd ./api test:unit:ci"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bartoszgolebiowski/jira-clone.git"
+  },
+  "author": "Bartosz Golebiowski"
+}

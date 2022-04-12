@@ -1,10 +1,6 @@
 {
   "name": "transactions-client",
   "version": "0.0.1",
-  "author": {
-    "name": "Bartosz Golebiowski",
-    "url": "https://github.com/bartoszgolebiowski/jira-clone"
-  },
   "scripts": {
     "build": "npm run typecheck && vite build",
     "dev": "vite",
@@ -34,8 +30,10 @@
     "@xstate/react": "^2.0.1",
     "constate": "^3.3.0",
     "framer-motion": "^6",
+    "qr-scanner": "^1.4.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-qr-code": "^2.0.5",
     "react-query": "^3.34.19",
     "react-router-dom": "^6.2.2",
     "xstate": "^4.30.5"

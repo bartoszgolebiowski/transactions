@@ -41,7 +41,10 @@ export class AuthService implements IAuthService {
     if (user) {
       throw new Error("User already exists");
     }
-    const newUser = await this.userRepository.save(email, password);
+    const newUser = await this.userRepository.save(
+      email,
+      bcrypt.hashSync(password, 10)
+    );
     return newUser;
   }
 }

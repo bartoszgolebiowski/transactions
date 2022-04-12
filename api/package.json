@@ -3,15 +3,11 @@
   "description": "api",
   "main": "index.ts",
   "version": "0.0.1",
-  "author": {
-    "name": "Bartosz Golebiowski",
-    "url": "https://github.com/bartoszgolebiowski/jira-clone"
-  },
   "scripts": {
     "dev": "tsnd --respawn src/index.ts",
     "build": "tsc -p .",
-    "test:unit": "jest",
-    "test:watch": "jest --watchAll",
+    "test:unit": "jest --watchAll",
+    "test:unit:ci": "jest",
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
     "lint:check": "eslint",

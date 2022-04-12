@@ -6,10 +6,11 @@ type Props = {
 };
 
 const DisplayBalance = (props: Props) => {
+  const { balance } = props;
   return (
     <Stat>
       <StatLabel>Balance</StatLabel>
-      <StatNumber>{props.balance}</StatNumber>
+      <StatNumber>{balance}</StatNumber>
     </Stat>
   );
 };
